@@ -206,12 +206,19 @@
       
       .container {
         max-width: 80mm;
+        margin-left: 0 !important;
       }
       
       .bill-section {
         box-shadow: none;
         border-radius: 0;
         padding: 4px;
+        padding-left: 8px !important;
+        padding-right: 2px !important;
+      }
+      
+      .bill-content {
+        padding-left: 4px;
       }
       
       .btn-delete {
@@ -223,7 +230,7 @@
       }
       
       @page {
-        margin: 0;
+        margin: 0 0 0 3mm;
         size: 80mm auto;
       }
     }
