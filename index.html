@@ -129,7 +129,7 @@
       border-bottom: 2px solid #000;
       padding: 8px 0;
       text-align: center;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bold;
       margin: 16px 0;
     }
@@ -214,11 +214,12 @@
         border-radius: 0;
         padding: 4px;
         padding-left: 8px !important;
-        padding-right: 2px !important;
+        padding-right: 8px !important;
       }
       
       .bill-content {
         padding-left: 4px;
+        padding-right: 4px;
       }
       
       .btn-delete {
@@ -230,7 +231,7 @@
       }
       
       @page {
-        margin: 0 0 0 3mm;
+        margin: 0 3mm 0 3mm;
         size: 80mm auto;
       }
     }
@@ -261,7 +262,6 @@
     <div class="bill-section">
       <div class="bill-content">
         <div class="bill-header">
-          <div>Bill number: <span id="billNumber">---</span></div>
           <div style="display: flex; justify-content: space-between;">
             <span>Date: <span id="billDate">---</span></span>
             <span>Time: <span id="billTime">---</span></span>
@@ -315,7 +315,6 @@
       
       if (!billNumber) {
         billNumber = generateBillNumber();
-        document.getElementById('billNumber').textContent = billNumber;
         document.getElementById('billDate').textContent = getCurrentDate();
         document.getElementById('billTime').textContent = getCurrentTime();
       }
@@ -356,8 +355,8 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 50px;">Sr</th>
-              <th class="text-right">Amount</th>
+              <th style="width: 30px;">Sr</th>
+              <th class="text-right" style="width: 60px;">Amount</th>
               <th class="text-right">Qty</th>
               <th class="text-right">Total</th>
               <th style="width: 60px;"></th>
@@ -384,11 +383,7 @@
           </tbody>
         </table>
         <div class="summary">
-          <div>No of items: ${items.length}</div>
           <div class="total">Total: Rs ${getTotalAmount().toFixed(2)}</div>
-        </div>
-        <div class="footer">
-          Thank you visit again
         </div>
       `;
       
