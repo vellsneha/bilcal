@@ -129,7 +129,7 @@
       border-bottom: 2px solid #000;
       padding: 8px 0;
       text-align: center;
-      font-size: 14px;
+      font-size: 11px;
       font-weight: bold;
       margin: 16px 0;
     }
@@ -214,12 +214,12 @@
         border-radius: 0;
         padding: 4px;
         padding-left: 8px !important;
-        padding-right: 8px !important;
+        padding-right: 8mm !important;
       }
       
       .bill-content {
         padding-left: 4px;
-        padding-right: 4px;
+        padding-right: 8mm;
       }
       
       .btn-delete {
@@ -231,7 +231,7 @@
       }
       
       @page {
-        margin: 0 3mm 0 3mm;
+        margin: 0;
         size: 80mm auto;
       }
     }
@@ -256,6 +256,9 @@
       </div>
       <button class="btn btn-print" onclick="window.print()" id="printBtn" style="display: none;">
         🖨️ Print Bill
+      </button>
+      <button class="btn" onclick="resetBill()" id="resetBtn" style="display: none; background: #dc2626; color: white; width: 100%; margin-top: 8px;">
+        🔄 New Bill
       </button>
     </div>
 
@@ -305,13 +308,19 @@
       if (!amount) return;
       
       const item = {
-        sr: items.length + 1,
+        sr: 1,
         amount: amount,
         qty: quantity,
         total: amount * quantity
       };
       
-      items.push(item);
+      items.unshift(item);
+      
+      // Reindex all items
+      items = items.map((item, i) => ({
+        ...item,
+        sr: i + 1
+      }));
       
       if (!billNumber) {
         billNumber = generateBillNumber();
@@ -323,6 +332,16 @@
       quantityInput.value = '';
       amountInput.focus();
       
+      renderBill();
+    }
+
+    function resetBill() {
+      items = [];
+      billNumber = '';
+      document.getElementById('billDate').textContent = '---';
+      document.getElementById('billTime').textContent = '---';
+      document.getElementById('amount').value = '';
+      document.getElementById('quantity').value = '';
       renderBill();
     }
 
@@ -342,14 +361,17 @@
     function renderBill() {
       const contentDiv = document.getElementById('billContent');
       const printBtn = document.getElementById('printBtn');
+      const resetBtn = document.getElementById('resetBtn');
       
       if (items.length === 0) {
         contentDiv.innerHTML = '<div class="empty-state">No items added yet</div>';
         printBtn.style.display = 'none';
+        resetBtn.style.display = 'none';
         return;
       }
       
       printBtn.style.display = 'block';
+      resetBtn.style.display = 'block';
       
       let html = `
         <table>
@@ -357,8 +379,8 @@
             <tr>
               <th style="width: 30px;">Sr</th>
               <th class="text-right" style="width: 60px;">Amount</th>
-              <th class="text-right">Qty</th>
-              <th class="text-right">Total</th>
+              <th class="text-right" style="width: 45px;">Qty</th>
+              <th class="text-right" style="width: 55px;">Total</th>
               <th style="width: 60px;"></th>
             </tr>
           </thead>
